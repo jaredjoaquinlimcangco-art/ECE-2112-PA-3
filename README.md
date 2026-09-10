@@ -2,98 +2,112 @@
 ######  
 Limcangco, Jared Joaquin M. || 2ECE-B
 
-This repository contains everything included within our third programming assignment for our ECE2112 (Advanced Computer Programming and Algorithms) course. Below, there are three given problems related to Module 3, NumPy, where everything is going to be discussed. Let us get started.
+This repository contains everything included within our third programming assignment for our ECE2112 (Advanced Computer Programming and Algorithms) course. Below, there are three given problems related to Module 3, Pandas, where everything is going to be discussed. Let us get started.
 
 #### 
 ####   
 ####   
 
-First, `import pandas as npy` was added at the start in order to use its functions throughout the whole process.
+First, `import pandas as pd` was added at the start in order to use pandas' functions throughout the whole process.
 
-### Problem A: Reproducible Normalization Problem
+Additionally, `'cars = pd.read_csv ('cars.csv')` was put afterwards in order to read the cars.csv file so it can be stored as a DataFrame.
 
-#### The Process:
-For solving this problem, the following functions were used,
-- `np.random.seed(2112)` = Sets random seed to 2112 for random values each time.
-- `X = np.random.randint(10, 101, size=(5, 5)) ` = Creates a 5x5 array that generates random values from 10 - 100.
-- `X_mean = X.mean()` = Calculates mean of all values in X.
-- `X_std = X.std()` = Calculates population standard deviation of all values in X.
-- `X_normalized = (X - X_mean) / X_std` = Normalizes each value using mean and std.
+### Problem A: Positional and Label-Based Slicing
+After loading cars, complete the following operations. 
 
-Using these functions, they were put together to form a program that normalizes any array with any given values.
-```python
-np.random.seed(2112)                          
-X = np.random.randint(10, 101, size=(5, 5))         
-X
-X_mean = X.mean()                        
-X_std = X.std()                    
-X_normalized = (X - X_mean) / X_std         
-X_normalized
-print('X:')                                         
-print(X)
-print('X_normalized:')                              
-print(X_normalized)
-print('Mean of X_normalized:')                  
-print(X_normalized.mean())
-print('Standard deviation of X_normalized:')       
-print(X_normalized.std())
-np.save('X_normalized.npy', X_normalized)
-```
-(X_normalized.npy can be viewed through the repository home page.)
+a. Display the shape and complete list of column names of cars. 
 
-### Problem B: Cubes Divisible By 4 Problem
+b. Using positional slicing, create cars 6 to 10 containing rows 6 through 10 of the dataset, where the first data row is row 1. 
+
+c. From cars 6 to 10, display only the columns Model, mpg, cyl, hp, and gear, in that order. 
+
+Requirement: The row selection in part (b) must use iloc; the column selection in part (c) must use column labels.
 
 #### The Process:
 For solving this problem, the following functions were used,
-- `C = np.arange(1, 101) ** 3` = Creates first 100 values and cubes.
-- `C = C.reshape(10, 10)` = Reshapes cubed values into 10x10 array.
-- `div_by_4 = C[C % 4 == 0]` = Selects values divisible by 4.
 
-These functions were then used to create a program that examines given values from an array and identifies which of them are divisible by 4.
+A - a:
+- `print ('Shape of Cars:', cars.shape)` = Displays number rows and columns.
+- `print ('Column names:', cars.columns.tolist())` = Displays list of column names.
+
+A - b:
+- `cars_6_to_10 = cars.iloc [5:10]` = Selects rows 6 to 10.
+
+A - c:
+- `cars_6_to_10 = cars_6_to_10 [['Model', 'mpg', 'cyl', 'hp', 'gear']] ` = Selects the labeled columns.
+
+These functions were used individually for each part to fulfill the following operations for a, b, and c. Below is the compilation of the functions.
 ```python
-C = np.arange(1, 101) ** 3
-C = C.reshape(10, 10) 
-C
-div_by_4 = C[C % 4 == 0]         
-div_by_4
-print('Shape of C:')                    
-print(C.shape)
-print('div_by_4:')
-print(div_by_4)
-print('Number of selected elements:')    
-print(div_by_4.size)
-np.save('div_by_4.npy', div_by_4)
-```
-(div_by_4.npy can be viewed through the repository home page.)
+print ('Shape of Cars:', cars.shape)
+print ('Column names:', cars.columns.tolist())
 
-### Problem C: Above-Mean Squares Problem
+cars_6_to_10 = cars.iloc [5:10]
+cars_6_to_10
+
+cars_6_to_10 = cars_6_to_10 [['Model', 'mpg', 'cyl', 'hp', 'gear']]
+cars_6_to_10
+```
+
+### Problem B: Model Lookup
+Use Boolean indexing on the Model column to answer both requests.
+
+a. Display the complete row for Toyota Corolla.
+
+b. For Pontiac Firebird, display only Model, mpg, hp, and wt.
+
+Store the two results in toyota and pontiac, respectively. Do not use a hard-coded row number to locate either model.
 
 #### The Process:
-For solving this problem, the following functions were used,
-- `S = np.arange(1, 37)**2` = Creates first 36 values and squares.
-- `S = S.reshape(6, 6)` = Reshapes squared values into 6x6 array.
-- `S_mean = S.mean()` = Calculates mean of all values.
-- `above_mean = S[S > S_mean]` = Selects values that are greater than the mean.
 
-With the use of these functions, a program was created for the sole purpose of choosing values that are greater than the mean in an array.
+For solving this problem, the following functions were used,
+
+B - a:
+- `toyota_c = cars[cars['Model'] == 'Toyota Corolla']` = Finds the Toyota Corolla model and displays its complete row.
+
+B - b:
+- `pontiac_f = cars[cars['Model'] == 'Pontiac Firebird'] [['Model', 'mpg', 'hp', 'wt']]` = Finds the Pontiac Firebird model and selects its labeled columns.
+
+These functions were used individually for each part to fulfill the following operations for both a and b. Below is the compilation of the functions.
 ```python
-S = np.arange(1, 37)**2  
-S = S.reshape(6, 6)      
-S
-S_mean = S.mean()       
-S_mean
-above_mean = S[S > S_mean]    
-above_mean
-print('S:')                                     
-print(S)
-print('S_mean:')                              
-print(S_mean)
-print('above_mean:')                          
-print(above_mean)
-print('Number of selected elements:')         
-print(above_mean.size)
-np.save('above_mean.npy', above_mean)
+toyota_c = cars[cars['Model'] == 'Toyota Corolla']
+toyota_c
+
+pontiac_f = cars[cars['Model'] == 'Pontiac Firebird'] [['Model', 'mpg', 'hp', 'wt']]
+pontiac_f
 ```
-(above_mean.npy can be viewed through the repository home page.)
+
+### Problem C: Multi-Model Subsetting
+Create a DataFrame named selected cars containing only the records for three models: Datsun 710, Lotus Europa, and Ferrari Dino.
+
+For these records, retain only Model, mpg, cyl, hp, and gear. Select the rows by their model values rather than by row numbers. 
+
+Display selected cars and its shape.
+
+Required check: The final DataFrame must contain exactly three rows and five columns.
+
+#### The Process:
+
+For solving this problem, the following functions were used,
+- `carselected = cars.loc[(cars['Model'] == 'Datsun 710') |  
+                         (cars['Model'] == 'Lotus Europa') |
+                         (cars['Model'] == 'Ferrari Dino'),
+                         ['Model', 'mpg', 'cyl', 'hp', 'gear']]`
+
+  = Finds the models for Datsun 710, Lotus Europa, and Ferrari Dino before selecting their labeled columns.
+  
+- `print ('Shape of Selected Cars:', carselected.shape)`
+
+  = Displays the size of rows and columns.
+
+These functions were successfully used to make a DataFrame for the three cars, which included their models and other components, before finally being displayed of the size of their DataFrame.
+```python
+carselected = cars.loc[(cars['Model'] == 'Datsun 710') |         
+                         (cars['Model'] == 'Lotus Europa') |
+                         (cars['Model'] == 'Ferrari Dino'),
+                         ['Model', 'mpg', 'cyl', 'hp', 'gear']]
+carselected
+
+print ('Shape of Selected Cars:', carselected.shape)
+```
 
 ### Thank you for reading this repository.
